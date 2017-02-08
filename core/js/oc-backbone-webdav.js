@@ -288,16 +288,14 @@
 		var params = {type: methodMap[method] || method};
 		var isCollection = (model instanceof Backbone.Collection);
 
-		if (method === 'update') {
-			// if a model has an inner collection, it must define an
-			// attribute "hasInnerCollection" that evaluates to true
-			if (model.hasInnerCollection) {
-				// if the model itself is a Webdav collection, use MKCOL
-				params.type = 'MKCOL';
-			} else if (model.usePUT || (model.collection && model.collection.usePUT)) {
-				// use PUT instead of PROPPATCH
-				params.type = 'PUT';
-			}
+		// if a model has an inner collection, it must define an
+		// attribute "hasInnerCollection" that evaluates to true
+		if (method === 'create' && model.hasInnerCollection) {
+			params.type = 'MKCOL';
+		}
+		if (method === 'update' && (model.usePUT || (model.collection && model.collection.usePUT))) {
+			// use PUT instead of PROPPATCH
+			params.type = 'PUT';
 		}
 
 		// Ensure that we have a URL.
