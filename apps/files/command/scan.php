@@ -136,6 +136,9 @@ class Scan extends Base {
 			$output->writeln("<error>Home storage for user $user not writable</error>");
 			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
 		} catch (\Exception $e) {
+			if ($e->getMessage() !== 'ctrl-c') {
+				$output->writeln('<error>Exception during scan: ' . $e->getMessage() . "\n" . $e->getTraceAsString() . '</error>');
+			}
 			# exit the function if ctrl-c has been pressed 
 			return;
 		}
