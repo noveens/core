@@ -38,4 +38,3 @@ $OC_Build = '';
 
 // Vendor of this package
 $vendor = 'owncloud';
-
